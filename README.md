@@ -4,13 +4,17 @@ This simple container image bundles together the latest stable releases of [Redi
 
 # Quickstart
 
-```bash
+```text
 $ docker pull redislabs/redismod
 Using default tag: latest
 ...
 $ docker run -p 6379:6379 redismod
-1:C 01 May 06:37:09.666 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 01 May 06:37:09.042 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
 ...
+1:M 01 May 06:37:09.666 * Module 'ft' loaded from /usr/lib/redis/modules/redisearch.so
+1:M 01 May 06:37:09.666 * Module 'ReJSON' loaded from /usr/lib/redis/modules/rejson.so
+1:M 01 May 06:37:09.666 * Module 'bf' loaded from /usr/lib/redis/modules/rebloom.so
+1:M 01 May 06:37:09.666 * Ready to accept connections
 ```
 
 ## Modules included in the container
@@ -18,6 +22,29 @@ $ docker run -p 6379:6379 redismod
 * [RediSearch](http://redisearch.io): a full-featured search engine
 * [ReJSON](http://rejson.io): a native JSON data type
 * [Rebloom](http://rebloom.io): native Bloom and Cuckoo Filter data types
+
+## Configuring the Redis server
+
+This image is based on the [official image of Redis from Docker](https://hub.docker.com/_/redis/) - you can follow the instructions there or refer to the following instructions. By default, the container starts with Redis' default configuration all modules are loaded.
+
+You can, of course, override the defaults by providing your own [Redis configuration file](http://download.redis.io/redis-stable/redis.conf). Assuming that you have put together a configration files such as the following, and have stored it at `/home/user/redis.conf`:
+
+```text
+requirepass foobared
+loadmodule /usr/lib/redis/modules/rebloom.so
+```
+
+And then execute something along these lines:
+
+```text
+$ docker run \
+  -p 6379:6379 \
+  -v /home/user/redis.conf:/usr/local/etc/redis/redis.conf \
+  --name redismod redislabs/redismod \
+  redis-server /usr/local/etc/redis/redis.conf
+```
+
+Your dockerized Redis server will start and will be listening at the default Redis port (6379) of the host. In addition, the Redis server will require password authentication ("foobared") and will have loaded the Rebloom module only.
 
 ## License
 
