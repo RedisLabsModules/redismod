@@ -9,7 +9,7 @@ RUN set -ex;\
     mkdir -p ${LIBDIR};
 COPY --from=redisearch ${LIBDIR}/redisearch.so ${LIBDIR}
 COPY --from=rejson ${LIBDIR}/rejson.so ${LIBDIR}
-COPY --from=rebloom /var/lib/redis/modules/rebloom.so ${LIBDIR}
+COPY --from=rebloom ${LIBDIR}/rebloom.so ${LIBDIR}
 
 ENTRYPOINT ["redis-server"]
 CMD ["--loadmodule", "/usr/lib/redis/modules/redisearch.so", \
