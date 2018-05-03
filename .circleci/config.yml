@@ -17,9 +17,11 @@ jobs:
       - run:
           name: Build Docker container
           command: docker build -t redislabs/redismod:$CIRCLE_BRANCH .
-      - run: |
-          docker login -u $DOCKER_USER -p $DOCKER_PASS
-          docker push redislabs/redismod:$CIRCLE_BRANCH
+      - run:
+          name: Push container to Docker Hub 
+          command: |
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker push redislabs/redismod:$CIRCLE_BRANCH
   deploy_release: # deploys a release from GH to DH
     docker:
       - image: 'redislabsmodules/rmbuilder:latest'
@@ -37,9 +39,11 @@ jobs:
       - run:
           name: Build Docker container
           command: docker build -t redislabs/redismod:$CIRCLE_TAG .
-      - run: |
-          docker login -u $DOCKER_USER -p $DOCKER_PASS
-          docker push redislabs/redismod:$CIRCLE_TAG
+      - run:
+          name: Push container to Docker Hub 
+          command: |
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker push redislabs/redismod:$CIRCLE_TAG
   deploy_latest:  # deploys GH master as DH latest
     docker:
       - image: 'redislabsmodules/rmbuilder:latest'
@@ -57,12 +61,14 @@ jobs:
       - run:
           name: Build Docker container
           command: docker build -t redislabs/redismod:latest .
-      - run: |
-          docker login -u $DOCKER_USER -p $DOCKER_PASS
-          docker push redislabs/redismod:latest
+      - run:
+          name: Push container to Docker Hub 
+          command: |
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            docker push redislabs/redismod:latest
 workflows:
   version: 2
-  deploy:
+  main:
     jobs:
       - deploy_latest:
         filters:
