@@ -66,6 +66,7 @@ jobs:
           command: |
             docker login -u $DOCKER_USER -p $DOCKER_PASS
             docker push redislabs/redismod:latest
+
 workflows:
   version: 2
   main:
