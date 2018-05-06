@@ -1,4 +1,5 @@
 FROM redislabs/redisearch:latest as redisearch
+FROM redislabs/redis-graph:latest as redisgraph
 FROM redislabs/rejson:latest as rejson
 FROM redislabs/rebloom:latest as rebloom
 
@@ -8,10 +9,12 @@ WORKDIR /data
 RUN set -ex;\
     mkdir -p ${LIBDIR};
 COPY --from=redisearch ${LIBDIR}/redisearch.so ${LIBDIR}
+COPY --from=redisgraph ${LIBDIR}/redisgraph.so ${LIBDIR}
 COPY --from=rejson ${LIBDIR}/rejson.so ${LIBDIR}
 COPY --from=rebloom ${LIBDIR}/rebloom.so ${LIBDIR}
 
 ENTRYPOINT ["redis-server"]
 CMD ["--loadmodule", "/usr/lib/redis/modules/redisearch.so", \
+    "--loadmodule", "/usr/lib/redis/modules/redisgraph.so", \
     "--loadmodule", "/usr/lib/redis/modules/rejson.so", \
     "--loadmodule", "/usr/lib/redis/modules/rebloom.so"]
