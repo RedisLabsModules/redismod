@@ -12,6 +12,7 @@ $ docker run -p 6379:6379 redislabs/redismod
 1:C 01 May 06:37:09.042 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
 ...
 1:M 01 May 06:37:09.666 * Module 'ft' loaded from /usr/lib/redis/modules/redisearch.so
+1:M 01 May 06:37:09.666 * Module 'graph' loaded from /usr/lib/redis/modules/redisgraph.so
 1:M 01 May 06:37:09.666 * Module 'ReJSON' loaded from /usr/lib/redis/modules/rejson.so
 1:M 01 May 06:37:09.666 * Module 'bf' loaded from /usr/lib/redis/modules/rebloom.so
 1:M 01 May 06:37:09.666 * Ready to accept connections
@@ -20,6 +21,7 @@ $ docker run -p 6379:6379 redislabs/redismod
 ## Modules included in the container
 
 * [RediSearch](http://redisearch.io): a full-featured search engine
+* [RediSearch](http://redisgraph.io): a graph database
 * [ReJSON](http://rejson.io): a native JSON data type
 * [Rebloom](http://rebloom.io): native Bloom and Cuckoo Filter data types
 
@@ -72,4 +74,3 @@ This Docker image is licensed under the 3-Clause BSD License.
 The copyright of the Redis project belongs to Salvatore Sanfilippo, and the project is distributed under the 3-Clause BSD License.
 
 The copyright of the Redis modules in this container belongs to Redis Labs, and the modules are distributed under the GNU Affero General Public License v3.0 (AGPLv3).
-
