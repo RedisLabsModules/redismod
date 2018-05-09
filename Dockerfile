@@ -1,6 +1,6 @@
 FROM redislabs/redisearch:latest as redisearch
-FROM redislabs/redis-graph:latest as redisgraph
-FROM redislabs/redis-ml:latest as redisml
+FROM redislabs/redisgraph:latest as redisgraph
+FROM redislabs/redisml:latest as redisml
 FROM redislabs/rejson:latest as rejson
 FROM redislabs/rebloom:latest as rebloom
 
