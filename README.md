@@ -73,6 +73,7 @@ Your dockerized Redis server will start and will be listening at the default Red
 
 This Docker image is licensed under the 3-Clause BSD License.
 
-The copyright of the Redis project belongs to Salvatore Sanfilippo, and the project is distributed under the 3-Clause BSD License.
+Redis is distributed under the 3-Clause BSD License. The Redis trademark and logos are owned by Redis Labs Ltd, please read the Redis trademark guidelines (https://redis.io/topics/trademark) for our policy about the use of the Redis trademarks and logo.
 
-The copyright of the Redis modules in this container belongs to Redis Labs, and the modules are distributed under the GNU Affero General Public License v3.0 (AGPLv3).
+The copyright of the Redis modules in this container belongs to Redis Labs, and the modules are distributed under the Apache 2.0 license with Commons Clause.
+
