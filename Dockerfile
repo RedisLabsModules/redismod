@@ -8,6 +8,8 @@ FROM redis:latest as redis
 ENV LIBDIR /usr/lib/redis/modules
 WORKDIR /data
 RUN set -ex;\
+    apt-get update;\
+    apt-get install -y --no-install-recommends libgomp1;\
     mkdir -p ${LIBDIR};
 COPY --from=redisearch ${LIBDIR}/redisearch.so ${LIBDIR}
 COPY --from=redisgraph ${LIBDIR}/redisgraph.so ${LIBDIR}
