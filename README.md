@@ -9,23 +9,38 @@ $ docker pull redislabs/redismod
 Using default tag: latest
 ...
 $ docker run -p 6379:6379 redislabs/redismod
-1:C 01 May 06:37:09.042 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 24 Apr 2019 21:46:40.382 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
 ...
-1:M 01 May 06:37:09.666 * Module 'ft' loaded from /usr/lib/redis/modules/redisearch.so
-1:M 01 May 06:37:09.666 * Module 'graph' loaded from /usr/lib/redis/modules/redisgraph.so
-1:M 01 May 06:37:09.666 * Module 'redis-ml' loaded from /usr/lib/redis/modules/redis-ml.so
-1:M 01 May 06:37:09.666 * Module 'ReJSON' loaded from /usr/lib/redis/modules/rejson.so
-1:M 01 May 06:37:09.666 * Module 'bf' loaded from /usr/lib/redis/modules/rebloom.so
-1:M 01 May 06:37:09.666 * Ready to accept connections
+1:M 24 Apr 2019 21:46:40.474 * Module 'ai' loaded from /usr/lib/redis/modules/redisai.so
+1:M 24 Apr 2019 21:46:40.474 * <ft> RediSearch version 1.4.7 (Git=)
+1:M 24 Apr 2019 21:46:40.474 * <ft> concurrency: ON, gc: ON, prefix min length: 2, prefix max expansions: 200, query timeout (ms): 500, timeout policy: return, cursor read size: 1000, cursor max idle (ms): 300000, max doctable size: 1000000, search pool size: 20, index pool size: 8, 
+1:M 24 Apr 2019 21:46:40.475 * <ft> Initialized thread pool!
+1:M 24 Apr 2019 21:46:40.475 * Module 'ft' loaded from /usr/lib/redis/modules/redisearch.so
+1:M 24 Apr 2019 21:46:40.476 * <graph> Thread pool created, using 8 threads.
+1:M 24 Apr 2019 21:46:40.476 * Module 'graph' loaded from /usr/lib/redis/modules/redisgraph.so
+loaded default MAX_SAMPLE_PER_CHUNK policy: 360 
+1:M 24 Apr 2019 21:46:40.476 * Module 'timeseries' loaded from /usr/lib/redis/modules/redistimeseries.so
+1:M 24 Apr 2019 21:46:40.476 # <ReJSON> JSON data type for Redis v1.0.4 [encver 0]
+1:M 24 Apr 2019 21:46:40.476 * Module 'ReJSON' loaded from /usr/lib/redis/modules/rejson.so
+1:M 24 Apr 2019 21:46:40.476 * Module 'bf' loaded from /usr/lib/redis/modules/rebloom.so
+1:M 24 Apr 2019 21:46:40.477 * <rg> RedisGears version 0.2.1, git_sha=fb97ad757eb7238259de47035bdd582735b5c81b
+1:M 24 Apr 2019 21:46:40.477 * <rg> PythonHomeDir:/usr/lib/redis/modules/deps/cpython/
+1:M 24 Apr 2019 21:46:40.477 * <rg> MaxExecutions:1000
+1:M 24 Apr 2019 21:46:40.477 * <rg> RedisAI api loaded successfully.
+1:M 24 Apr 2019 21:46:40.477 # <rg> RediSearch api loaded successfully.
+1:M 24 Apr 2019 21:46:40.521 * Module 'rg' loaded from /usr/lib/redis/modules/redisgears.so
+1:M 24 Apr 2019 21:46:40.521 * Ready to accept connections
 ```
 
 ## Modules included in the container
 
-* [RediSearch](http://redisearch.io): a full-featured search engine
-* [Redis Graph](http://redisgraph.io): a graph database
-* [Redis ML](http://redisml.io): a machine learning model server
-* [ReJSON](http://rejson.io): a native JSON data type
-* [Rebloom](http://rebloom.io): native Bloom and Cuckoo Filter data types
+* [RediSearch](https://oss.redislabs.com/redisearch/): a full-featured search engine
+* [RedisGraph](https://oss.redislabs.com/redisgraph/): a graph database
+* [RedisTimeSeries](https://oss.redislabs.com/redistimeseries/): a timeseries database
+* [RedisAI](https://oss.redislabs.com/redisai/): a tensor and deep learning model server
+* [RedisJSON](https://oss.redislabs.com/redisjson/): a native JSON data type
+* [RedisBloom](https://oss.redislabs.com/redisbloom/): native Bloom and Cuckoo Filter data types
+* [RedisGears](https://oss.redislabs.com/redisgears/): a dynamic execution framework
 
 ## Configuring the Redis server
 
@@ -75,5 +90,5 @@ This Docker image is licensed under the 3-Clause BSD License.
 
 Redis is distributed under the 3-Clause BSD License. The Redis trademark and logos are owned by Redis Labs Ltd, please read the Redis trademark guidelines (https://redis.io/topics/trademark) for our policy about the use of the Redis trademarks and logo.
 
-The copyright of the Redis modules in this container belongs to Redis Labs, and the modules are distributed under the Apache 2.0 license with Commons Clause.
+The copyright of the Redis modules in this container belongs to Redis Labs, and the modules are distributed under the Redis Source Available License.
 
