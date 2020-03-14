@@ -29,5 +29,5 @@ CMD ["--loadmodule", "/usr/lib/redis/modules/redisai.so", \
     "--loadmodule", "/usr/lib/redis/modules/redistimeseries.so", \
     "--loadmodule", "/usr/lib/redis/modules/rejson.so", \
     "--loadmodule", "/usr/lib/redis/modules/redisbloom.so", \
-    "--loadmodule", "/opt/redislabs/lib/modules/redisgears.so", \
+    "--loadmodule", "/var/opt/redislabs/lib/modules/redisgears.so", \
     "PythonHomeDir", "/opt/redislabs/lib/modules/python3"]
