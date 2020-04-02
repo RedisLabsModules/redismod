@@ -1,3 +1,5 @@
+[![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/redislabs/redismod.svg)](https://hub.docker.com/r/redislabs/redismod/builds/)
+
 # redismod - a Docker image with select Redis Labs modules
 
 This simple container image bundles together the latest stable releases of [Redis](https://redis.io) and select Redis modules from [Redis Labs](https://redislabs.com).
