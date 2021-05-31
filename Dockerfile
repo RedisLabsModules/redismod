@@ -10,9 +10,10 @@ ENV LD_LIBRARY_PATH /usr/lib/redis/modules
 ENV REDISGRAPH_DEPS libgomp1
 
 WORKDIR /data
-RUN set -ex; \
-    apt-get update; \
-    apt-get install -y --no-install-recommends ${REDISGRAPH_DEPS};
+RUN apt-get update -qq
+RUN apt-get upgrade -y
+RUN apt-get install -y --no-install-recommends ${REDISGRAPH_DEPS};
+RUN rm -rf /var/cache/apt
 
 COPY --from=redisai ${LD_LIBRARY_PATH}/redisai.so ${LD_LIBRARY_PATH}/
 COPY --from=redisai ${LD_LIBRARY_PATH}/backends ${LD_LIBRARY_PATH}/backends
