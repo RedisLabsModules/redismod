@@ -1,8 +1,8 @@
 FROM redislabs/redisai:preview as redisai
-FROM redislabs/redisearch:preview as redisearch
+FROM redislabs/redisearch:2.2.0 as redisearch
 FROM redislabs/redisgraph:preview as redisgraph
 FROM redislabs/redistimeseries:preview as redistimeseries
-FROM redislabs/rejson:preview as rejson
+FROM redislabs/rejson:2.0.0 as rejson
 FROM redislabs/rebloom:preview as rebloom
 FROM redislabs/redisgears:preview
 
@@ -11,8 +11,8 @@ ENV REDISGRAPH_DEPS libgomp1
 
 WORKDIR /data
 RUN set -ex; \
-    apt-get update; \
-    apt-get install -y --no-install-recommends ${REDISGRAPH_DEPS};
+    apt-get -qq update; \
+    apt-get install -y --no-install-recommends ${REDISGRAPH_DEPS}
 
 COPY --from=redisai ${LD_LIBRARY_PATH}/redisai.so ${LD_LIBRARY_PATH}/
 COPY --from=redisai ${LD_LIBRARY_PATH}/backends ${LD_LIBRARY_PATH}/backends
