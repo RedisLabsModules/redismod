@@ -1,0 +1,10 @@
+version: '2.1'
+
+services:
+  redismod-preview:
+    image: redismod:preview
+    build:
+      context: .
+      dockerfile: Dockerfile.preview
+    ports:
+      - 6379:6379

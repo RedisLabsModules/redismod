@@ -1,10 +1,10 @@
 version: '2.1'
 
 services:
-  redismod:
-    image: redismod
+  redismod-latest:
+    image: redismod:latest
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.latest
     ports:
       - 6379:6379

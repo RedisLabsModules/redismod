@@ -44,9 +44,100 @@ loaded default MAX_SAMPLE_PER_CHUNK policy: 360
 * [RedisBloom](https://oss.redislabs.com/redisbloom/): native Bloom and Cuckoo Filter data types
 * [RedisGears](https://oss.redislabs.com/redisgears/): a dynamic execution framework
 
+## Building and Running
+
+Start by invoking `make help`:
+
+```
+make build    # Build container
+  FRESH=1|0     # always fetch images from Dockerhub
+  OFFICIAL=1    # create redislabs/redismod image
+make edge     # Like: make build EDGE=1
+make preview  # Like: make build PREVIEW=1
+make latest   # Like: make build LATEST=1
+
+make run      # Run selected container
+make up       # Build and start docker-compose containers
+  VERBOSE=1     # Show output from containers (no daemon mode)
+make down     # Stop docker-compose containers
+make clean    # Remove docker-compose containers
+
+make publish  # Push redislabs/redismod images (requires OFFICIAL=1)
+
+make test     # Test with redis-py
+
+Version selectors:
+EDGE=1        # redismod:edge (latest commit on master)
+PREVIEW=1     # redismod:preview (latest commit latest integration branch)
+LATEST=1      # redismod:latest (last released version)
+```
+
+There are three version selectors:
+
+* **EDGE**: the "latest and greatest" version from the master branch of each module,
+* **PREVIEW**: the latest commit of the latest integration branch,
+* **LATEST**: the latest stable version.
+
+The simplest way of creating a redismod container of your choice is:
+
+```
+make EDGE=1 up
+```
+
+which results in:
+
+```
+Creating network "redismod_default" with the default driver
+Creating redismod_redismod-edge_1 ... done
+```
+
+You can now connect with `redis-cli` and examine available modules:
+
+```
+# redis-cli
+myhost:6379> module list
+1) 1) "name"
+   2) "timeseries"
+   3) "ver"
+   4) (integer) 999999
+2) 1) "name"
+   2) "search"
+   3) "ver"
+   4) (integer) 999999
+3) 1) "name"
+   2) "graph"
+   3) "ver"
+   4) (integer) 999999
+4) 1) "name"
+   2) "ai"
+   3) "ver"
+   4) (integer) 999999
+5) 1) "name"
+   2) "ReJSON"
+   3) "ver"
+   4) (integer) 999999
+6) 1) "name"
+   2) "rg"
+   3) "ver"
+   4) (integer) 999999
+7) 1) "name"
+   2) "bf"
+   3) "ver"
+   4) (integer) 999999
+```
+
+The following will bring the container down:
+
+```
+# make EDGE=1 down
+Stopping redismod_redismod-edge_1 ... done
+Removing redismod_redismod-edge_1 ... done
+Removing network redismod_default
+```
+
 ## Configuring the Redis server
 
-This image is based on the [official image of Redis from Docker](https://hub.docker.com/_/redis/). By default, the container starts with Redis' default configuration and all included modules loaded.
+This image is based on an image similar to the [official image of Redis from Docker](https://hub.docker.com/_/redis/). By default, the container starts with Redis' default configuration and all included modules loaded.
 
 You can, of course, override the defaults. This can be done either by providing additional command line arguments to the `docker` command, or by providing your own [Redis configuration file](http://download.redis.io/redis-stable/redis.conf).
 

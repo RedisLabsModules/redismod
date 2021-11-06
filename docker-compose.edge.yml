@@ -1,7 +1,7 @@
 version: '2.1'
 
 services:
-  redismod:
+  redismod-edge:
     image: redismod:edge
     build:
       context: .
