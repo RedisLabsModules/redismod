@@ -1,8 +1,8 @@
 FROM redislabs/redisai:preview as redisai
-FROM redislabs/redisearch:2.2.0 as redisearch
+FROM redislabs/redisearch:preview as redisearch
 FROM redislabs/redisgraph:preview as redisgraph
 FROM redislabs/redistimeseries:preview as redistimeseries
-FROM redislabs/rejson:2.0.0 as rejson
+FROM redislabs/rejson:preview as rejson
 FROM redislabs/rebloom:preview as rebloom
 FROM redislabs/redisgears:preview
 
