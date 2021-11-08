@@ -7,7 +7,7 @@ FROM redislabs/rebloom:edge as rebloom
 FROM redislabs/redisgears:edge
 
 ENV LD_LIBRARY_PATH /usr/lib/redis/modules
-ENV REDISGRAPH_DEPS libgomp1
+ENV REDISGRAPH_DEPS libgomp1 git
 
 WORKDIR /data
 RUN set -ex; \
