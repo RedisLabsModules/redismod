@@ -1,0 +1,253 @@
+version: 2.1
+
+commands:
+  early-returns:
+    steps:
+      - run:
+          name: Early return if this is a docs build
+          command: |
+            if [[ $CIRCLE_BRANCH == *docs ]]; then
+              echo "Identifies as documents PR, no testing required."
+              circleci step halt
+            fi
+      - run:
+          name: Early return if this branch should ignore CI
+          command: |
+            if [[ $CIRCLE_BRANCH == *noci ]]; then
+              echo "Identifies as actively ignoring CI, no testing required."
+              circleci step halt
+            fi
+
+  early-return-for-forked-pull-requests:
+    description: >-
+      If this build is from a fork, stop executing the current job and return success.
+      This is useful to avoid steps that will fail due to missing credentials.
+    steps:
+      - run:
+          name: Early return if this build is from a forked PR
+          command: |
+            if [[ -n "$CIRCLE_PR_NUMBER" ]]; then
+              echo "Nothing to do for forked PRs, so marking this step successful"
+              circleci step halt
+            fi
+
+  setup-executor:
+    steps:
+      - run:
+          name: Setup executor
+          command: |
+            apt-get -qq update
+            apt-get -q install -y git openssh-client curl ca-certificates make tar gzip
+            bash <(curl -fsSL https://get.docker.com)
+      - setup_remote_docker:
+          docker_layer_caching: true
+
+  setup-automation:
+    steps:
+      - run:
+          name: Setup automation
+          command: |
+            git submodule update --init deps/readies
+            ./deps/readies/bin/getpy3
+
+  checkout-all:
+    steps:
+      - checkout
+      - run:
+          name: Checkout submodules
+          command: git submodule update --init --recursive
+
+  build-steps:
+    parameters:
+      selector:
+        type: string
+      official:
+        type: string
+    steps:
+      - early-returns
+      - setup-executor
+      - checkout-all
+      # - setup-automation
+      - run:
+          name: Build
+          command: |
+            cd build/docker
+            make build <<parameters.selector>>=1 FRESH=1 OFFICIAL=<<parameters.official>>
+          no_output_timeout: 30m
+      - run:
+          name: Test
+          command: |
+            make up <<parameters.selector>>=1 OFFICIAL=<<parameters.official>>
+            make test <<parameters.selector>>=1 OFFICIAL=<<parameters.official>>
+            make down <<parameters.selector>>=1 OFFICIAL=<<parameters.official>>
+          no_output_timeout: 30m
+      - early-return-for-forked-pull-requests
+      - run:
+          name: Publish
+          command: |
+            if [[ "<<parameters.official>>" == "1" ]]; then
+                docker login -u redisfab -p $DOCKER_REDISFAB_PWD
+                make publish <<parameters.selector>>=1 OFFICIAL=1
+            fi
+
+  vm-build-steps:
+    parameters:
+      selector:
+        type: string
+      official:
+        type: string
+    steps:
+      - early-returns
+      - checkout-all
+      # - setup-automation
+      - run:
+          name: Install Docker
+          command: bash <(curl -fsSL https://get.docker.com)
+      - checkout-all
+      - run:
+          name: Build
+          command: |
+            cd build/docker
+            make build <<parameters.selector>>=1 FRESH=1 OFFICIAL=<<parameters.official>>
+          no_output_timeout: 30m
+      - run:
+          name: Test
+          command: |
+            make up <<parameters.selector>>=1 OFFICIAL=<<parameters.official>>
+            make test <<parameters.selector>>=1 OFFICIAL=<<parameters.official>>
+            make down <<parameters.selector>>=1 OFFICIAL=<<parameters.official>>
+          no_output_timeout: 30m
+      - early-return-for-forked-pull-requests
+      - run:
+          name: Publish
+          command: |
+            if [[ "<<parameters.official>>" == "1" ]]; then
+                docker login -u redisfab -p $DOCKER_REDISFAB_PWD
+                make publish <<parameters.selector>>=1 OFFICIAL=1
+            fi
+
+#----------------------------------------------------------------------------------------------------------------------------------
+
+jobs:
+  build:
+    parameters:
+      selector:
+        type: string
+      official:
+        type: string
+    docker:
+      - image: debian:buster
+    steps:
+      - build-steps:
+          selector: <<parameters.selector>>
+          official: <<parameters.official>>
+
+  build-arm:
+    parameters:
+      selector:
+        type: string
+      official:
+        type: string
+    machine:
+      image: ubuntu-2004:202101-01
+    resource_class: arm.medium
+    steps:
+      - vm-build-steps:
+          selector: <<parameters.selector>>
+          official: <<parameters.official>>
+
+#----------------------------------------------------------------------------------------------------------------------------------
+
+on-any-branch: &on-any-branch
+  filters:
+    branches:
+      only: /.*/
+    tags:
+      only: /.*/
+
+never: &never
+  filters:
+    branches:
+      ignore: /.*/
+    tags:
+      ignore: /.*/
+
+on-master: &on-master
+  filters:
+    branches:
+      only: master
+    tags:
+      ignore: /.*/
+
+on-integ-branch: &on-integ-branch
+  filters:
+    branches:
+      only:
+        - master
+        - /^\d+\.\d+.*$/
+        - /^feature-.*$/
+    tags:
+      ignore: /.*/
+
+not-on-integ-branch: &not-on-integ-branch
+  filters:
+    branches:
+      ignore:
+        - master
+        - /^\d+\.\d+.*$/
+        - /^feature-.*$/
+    tags:
+      ignore: /.*/
+
+on-version-tags: &on-version-tags
+  filters:
+    branches:
+      ignore: /.*/
+    tags:
+      only: /^v[0-9].*/
+
+on-integ-and-version-tags: &on-integ-and-version-tags
+  filters:
+    branches:
+      only:
+        - master
+        - /^\d+\.\d+.*$/
+        - /^feature-.*$/
+    tags:
+      only: /^v[0-9].*/
+
+#----------------------------------------------------------------------------------------------------------------------------------
+
+workflows:
+  version: 2
+  default-flow:
+    jobs:
+      - build:
+          name: build-pr
+          <<: *not-on-integ-branch
+          context: common
+          official: "0"
+          matrix:
+            parameters:
+              selector: ["EDGE"]
+
+  nightly:
+    triggers:
+      - schedule:
+          cron: "20 17 * * *"
+          filters:
+            branches:
+              only: master
+    jobs:
+      - build:
+          context: common
+          official: "1"
+          matrix:
+            parameters:
+              selector: ["EDGE", "LATEST", "PREVIEW"]
+      - build-arm:
+          context: common
+          official: "1"
+          matrix:
+            parameters:
+              selector: ["EDGE", "LATEST", "PREVIEW"]

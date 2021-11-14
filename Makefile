@@ -1,5 +1,5 @@
 
-define HELP
+define HELPTEXT
 make build    # Build container
   FRESH=1|0     # always fetch images from Dockerhub
   OFFICIAL=1    # create redislabs/redismod image
@@ -77,12 +77,22 @@ latest:
 run:
 	@docker run $(STEM):$(VARIANT)
 
+REDIS_HOST?=localhost
+
 test:
-	@if [ ! -d redis-py ]; then \
-		git clone https://github.com/redis/redis-py.git ;\
+	@set -e ;\
+	if [ ! -d venv ]; then \
+		if [ ! -d redis-py ]; then \
+			git clone https://github.com/redis/redis-py.git ;\
+		fi ;\
+		python3 -m virtualenv venv ;\
+		source ./venv/bin/activate ;\
+		(cd redis-py; python -m pip setup.py install;) ;\
+		python -m pip install -r pytest/dev_requirements.txt ;\
 	else \
-		cd redis-py; git pull ;\
-	fi
+		source ./venv/bin/activate ;\
+	fi ;\
+	(cd redis-py; pytest --redis-url redis://$(REDIS_HOST):6379 --redismod-url redis://$(REDIS_HOST):6379)
 
 #----------------------------------------------------------------------------------------------
 
@@ -110,15 +120,14 @@ clean:
 
 #----------------------------------------------------------------------------------------------
 
-ifneq ($(HELP),) 
 ifneq ($(filter help,$(MAKECMDGOALS)),)
 HELPFILE:=$(shell mktemp /tmp/make.help.XXXX)
 endif
-endif
 
 help:
-	$(file >$(HELPFILE),$(HELP))
+	$(file >$(HELPFILE),$(HELPTEXT))
 	@echo
 	@cat $(HELPFILE)
 	@echo
 	@-rm -f $(HELPFILE)
+
