@@ -105,9 +105,7 @@ commands:
       - run:
           name: Installations
           command: |
-            ./deps/readies/bin/getdocker --compose
-            python3 -m pip install virtualenv
-            python3 -m pip install pytest
+            python3 -m pip install virtualenv docker-compose pytest
       - run:
           name: Build
           command: |
