@@ -47,7 +47,7 @@ commands:
       - run:
           name: Setup automation
           command: |
-            git submodule update --init deps/readies
+            (mkdir -p deps; cd deps; git clone https://github.com/RedisLabsModules/readies.git)
             ./deps/readies/bin/getpy3
 
   checkout-all:
