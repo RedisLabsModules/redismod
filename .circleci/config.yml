@@ -103,8 +103,11 @@ commands:
       - checkout-all
       - setup-automation
       - run:
-          name: Install docker-compose
-          command: ./deps/readies/bin/getdocker --just-compose
+          name: Installations
+          command: |
+            ./deps/readies/bin/getdocker --compose
+            python3 -m pip install virtualenv
+            python3 -m pip install pytest
       - run:
           name: Build
           command: |
@@ -135,10 +138,14 @@ jobs:
         type: string
       official:
         type: string
-    docker:
-      - image: debian:buster
+    machine:
+      enabled: true
+      image: ubuntu-2004:202010-01
+      resource_class: large
+#    docker:
+#      - image: debian:buster
     steps:
-      - build-steps:
+      - vm-build-steps:
           selector: <<parameters.selector>>
           official: <<parameters.official>>
 
