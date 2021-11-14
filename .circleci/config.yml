@@ -67,7 +67,10 @@ commands:
       - early-returns
       - setup-executor
       - checkout-all
-      # - setup-automation
+      - setup-automation
+      - run:
+          name: Install docker-compose
+          command: ./deps/readies/bin/getdocker --just-compose
       - run:
           name: Build
           command: |
@@ -98,11 +101,10 @@ commands:
     steps:
       - early-returns
       - checkout-all
-      # - setup-automation
+      - setup-automation
       - run:
-          name: Install Docker
-          command: bash <(curl -fsSL https://get.docker.com)
-      - checkout-all
+          name: Install docker-compose
+          command: ./deps/readies/bin/getdocker --just-compose
       - run:
           name: Build
           command: |
