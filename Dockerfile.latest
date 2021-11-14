@@ -4,7 +4,7 @@ ARG ARCH=x64
 ARG OSNICK=bullseye
 ARG VARIANT=latest
 
-FROM redislabs/redisai:${VARIANT}-cpu-x64-bionic as redisai
+FROM redislabs/redisai:${VARIANT} as redisai
 FROM redislabs/redisearch:${VARIANT} as redisearch
 FROM redislabs/redisgraph:${VARIANT} as redisgraph
 FROM redislabs/redistimeseries:${VARIANT} as redistimeseries

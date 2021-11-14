@@ -80,7 +80,7 @@ commands:
           name: Test
           command: |
             make up <<parameters.selector>>=1 OFFICIAL=<<parameters.official>>
-            make test <<parameters.selector>>=1 OFFICIAL=<<parameters.official>>
+            make test
             make down <<parameters.selector>>=1 OFFICIAL=<<parameters.official>>
           no_output_timeout: 30m
       - early-return-for-forked-pull-requests
@@ -115,7 +115,7 @@ commands:
           name: Test
           command: |
             make up <<parameters.selector>>=1 OFFICIAL=<<parameters.official>>
-            make test <<parameters.selector>>=1 OFFICIAL=<<parameters.official>>
+            make test
             make down <<parameters.selector>>=1 OFFICIAL=<<parameters.official>>
           no_output_timeout: 30m
       - early-return-for-forked-pull-requests

@@ -1,0 +1,28 @@
+diff --git a/tests/conftest.py b/tests/conftest.py
+index 31d3fbd..67aa2fa 100644
+--- a/tests/conftest.py
++++ b/tests/conftest.py
+@@ -14 +13,0 @@ default_redis_url = "redis://localhost:6379/9"
+-
+@@ -15,0 +15,2 @@ default_redismod_url = "redis://localhost:36379"
++redis_url = default_redis_url
++redismod_url = default_redismod_url
+@@ -42,0 +44 @@ def pytest_sessionstart(session):
++    global redis_url
+@@ -51,0 +54 @@ def pytest_sessionstart(session):
++    global redismod_url
+diff --git a/tests/test_search.py b/tests/test_search.py
+index e07a61c..20f1596 100644
+--- a/tests/test_search.py
++++ b/tests/test_search.py
+@@ -9 +9 @@ from io import TextIOWrapper
+-from .conftest import skip_ifmodversion_lt, default_redismod_url
++from .conftest import skip_ifmodversion_lt, default_redismod_url, redismod_url
+@@ -77 +77,2 @@ def getClient():
+-    rc = Redis.from_url(default_redismod_url, decode_responses=True)
++    global redismod_url
++    rc = Redis.from_url(redismod_url, decode_responses=True)
+@@ -122 +123,2 @@ def modclient():
+-    return Redis.from_url(default_redismod_url, db=0, decode_responses=True)
++    global redismod_url
++    return Redis.from_url(redismod_url, db=0, decode_responses=True)

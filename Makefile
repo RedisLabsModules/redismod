@@ -86,11 +86,12 @@ test:
 	if [ ! -d venv ]; then \
 		if [ ! -d redis-py ]; then \
 			git clone https://github.com/redis/redis-py.git ;\
+			(cd redis-py; patch -p1 -i ../redis-py-1.patch;) ;\
 		fi ;\
 		python3 -m virtualenv venv ;\
 		. ./venv/bin/activate ;\
-		(cd redis-py; python -m pip setup.py install;) ;\
-		python -m pip install -r pytest/dev_requirements.txt ;\
+		(cd redis-py; python setup.py install;) ;\
+		python -m pip install -r redis-py/dev_requirements.txt ;\
 	else \
 		. ./venv/bin/activate ;\
 	fi ;\
