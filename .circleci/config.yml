@@ -82,13 +82,13 @@ commands:
             make down <<parameters.selector>>=1 OFFICIAL=<<parameters.official>>
           no_output_timeout: 30m
       - early-return-for-forked-pull-requests
-      - run:
-          name: Publish
-          command: |
-            if [[ "<<parameters.official>>" == "1" ]]; then
-                docker login -u redisfab -p $DOCKER_REDISFAB_PWD
-                make publish <<parameters.selector>>=1 OFFICIAL=1
-            fi
+#      - run:
+#          name: Publish
+#          command: |
+#            if [[ "<<parameters.official>>" == "1" ]]; then
+#                docker login -u redisfab -p $DOCKER_REDISFAB_PWD
+#                make publish <<parameters.selector>>=1 OFFICIAL=1
+#            fi
 
   vm-build-steps:
     parameters:
@@ -118,13 +118,13 @@ commands:
             make down <<parameters.selector>>=1 OFFICIAL=<<parameters.official>>
           no_output_timeout: 30m
       - early-return-for-forked-pull-requests
-      - run:
-          name: Publish
-          command: |
-            if [[ "<<parameters.official>>" == "1" ]]; then
-                docker login -u redisfab -p $DOCKER_REDISFAB_PWD
-                make publish <<parameters.selector>>=1 OFFICIAL=1
-            fi
+#      - run:
+#          name: Publish
+#          command: |
+#            if [[ "<<parameters.official>>" == "1" ]]; then
+#                docker login -u redisfab -p $DOCKER_REDISFAB_PWD
+#                make publish <<parameters.selector>>=1 OFFICIAL=1
+#            fi
 
 #----------------------------------------------------------------------------------------------------------------------------------
 
@@ -245,9 +245,9 @@ workflows:
           matrix:
             parameters:
               selector: ["EDGE", "LATEST", "PREVIEW"]
-      - build-arm:
-          context: common
-          official: "1"
-          matrix:
-            parameters:
-              selector: ["EDGE", "LATEST", "PREVIEW"]
+#      - build-arm:
+#          context: common
+#          official: "1"
+#          matrix:
+#            parameters:
+#              selector: ["EDGE", "LATEST", "PREVIEW"]

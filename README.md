@@ -1,3 +1,4 @@
+[![CircleCI](https://circleci.com/gh/RedisLabsModules/redismod/tree/master.svg?style=svg)](https://circleci.com/gh/RedisLabsModules/redismod/tree/master)
 [![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/redislabs/redismod.svg)](https://hub.docker.com/r/redislabs/redismod/builds/)
 
 # redismod - a Docker image with select Redis Labs modules
