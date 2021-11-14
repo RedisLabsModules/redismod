@@ -71,7 +71,6 @@ commands:
       - run:
           name: Build
           command: |
-            cd build/docker
             make build <<parameters.selector>>=1 FRESH=1 OFFICIAL=<<parameters.official>>
           no_output_timeout: 30m
       - run:
@@ -107,7 +106,6 @@ commands:
       - run:
           name: Build
           command: |
-            cd build/docker
             make build <<parameters.selector>>=1 FRESH=1 OFFICIAL=<<parameters.official>>
           no_output_timeout: 30m
       - run:
