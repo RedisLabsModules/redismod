@@ -1,4 +1,6 @@
 
+SHELL:=$(shell sh -c "command -v bash")
+
 define HELPTEXT
 make build    # Build container
   FRESH=1|0     # always fetch images from Dockerhub
@@ -86,11 +88,11 @@ test:
 			git clone https://github.com/redis/redis-py.git ;\
 		fi ;\
 		python3 -m virtualenv venv ;\
-		source ./venv/bin/activate ;\
+		. ./venv/bin/activate ;\
 		(cd redis-py; python -m pip setup.py install;) ;\
 		python -m pip install -r pytest/dev_requirements.txt ;\
 	else \
-		source ./venv/bin/activate ;\
+		. ./venv/bin/activate ;\
 	fi ;\
 	(cd redis-py; pytest --redis-url redis://$(REDIS_HOST):6379 --redismod-url redis://$(REDIS_HOST):6379)
 
