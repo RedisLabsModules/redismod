@@ -234,7 +234,8 @@ workflows:
           official: "0"
           matrix:
             parameters:
-              selector: ["EDGE"]
+              #@@ selector: ["EDGE"]
+              selector: ["EDGE", "LATEST", "PREVIEW"]
 
   nightly:
     triggers:
