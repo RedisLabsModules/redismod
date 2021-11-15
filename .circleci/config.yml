@@ -228,13 +228,12 @@ workflows:
   default-flow:
     jobs:
       - build:
-          name: build-pr
+          name: build-<<matrix.selector>>
           <<: *not-on-integ-branch
           context: common
           official: "0"
           matrix:
             parameters:
-              #@@ selector: ["EDGE"]
               selector: ["EDGE", "LATEST", "PREVIEW"]
 
   nightly:
@@ -246,12 +245,14 @@ workflows:
               only: master
     jobs:
       - build:
+          name: nightly-build-<<matrix.selector>>
           context: common
           official: "1"
           matrix:
             parameters:
               selector: ["EDGE", "LATEST", "PREVIEW"]
 #      - build-arm:
+#          name: nightly-build-arm-<<matrix.selector>>
 #          context: common
 #          official: "1"
 #          matrix:
