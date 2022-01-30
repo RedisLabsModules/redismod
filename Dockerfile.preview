@@ -1,4 +1,4 @@
-FROM redislabs/redisai:1.2.5 as redisai
+FROM redislabs/redisai:preview-cpu-x64-bionic as redisai
 FROM redislabs/redisearch:2.2.0 as redisearch
 FROM redislabs/redisgraph:preview as redisgraph
 FROM redislabs/redistimeseries:preview as redistimeseries
