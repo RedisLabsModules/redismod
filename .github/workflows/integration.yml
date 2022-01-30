@@ -25,7 +25,7 @@ jobs:
     steps:
       - name: install redis tools
         run:
-          sudo apt update -y
+          sudo apt update
           sudo apt install -y redis-tools
       - uses: actions/checkout@v2
       - name: build the docker
