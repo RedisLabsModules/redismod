@@ -18,8 +18,10 @@ jobs:
     runs-on: ubuntu-latest
     name: Validating docker ${{ matrix.docker-suffix }}
     timeout-minutes: 30
-    matrix:
-      docker-suffix = ['.edge', '.preview', '']
+    strategy:
+      fail-fast: true
+      matrix:
+        docker-suffix:  ['.edge', '.preview', '']
     steps:
       - uses: actions/checkout@v2
       - name: build the docker
