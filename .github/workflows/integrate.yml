@@ -1,0 +1,35 @@
+name: Build dockers
+
+on:
+  push:
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.rst'
+      - '**/*.md'
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+
+  docker-build-and-test:
+    runs-on: ubuntu-latest
+    name: Validating docker ${{ matrix.docker-suffix }}
+    timeout-minutes: 30
+    matrix:
+      docker-suffix = ['.edge', '.preview', '']
+    steps:
+      - uses: actions/checkout@v2
+      - name: build the docker
+        run: |
+          docker build -f Dockerfile${{ matrix.docker-suffix }} -t redismod:github${{ matrix.docker-suffix }} .
+      - name: light test that redis runs
+        run: |
+          docker run -d -p 6379:6379 redismod:github${{ matrix.docker-suffix }}
+          redis-cli -p 6379 ping
+          redis-cli -p 6379 set foo bar
+          redis-cli -p 6379 get foo|grep bar
+          redis-cli -p 6379 json.set jsonfoo '.' '{"hello": "world"}'
+          redis-cli -p 6379 json.get jsonfoo|grep hello
