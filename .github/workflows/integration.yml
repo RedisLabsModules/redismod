@@ -23,6 +23,10 @@ jobs:
       matrix:
         docker-suffix:  ['.edge', '.preview', '']
     steps:
+      - name: install redis tools
+        run:
+          sudo apt update -y
+          sudo apt install -y redis-tools
       - uses: actions/checkout@v2
       - name: build the docker
         run: |
