@@ -1,4 +1,4 @@
-[![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/redislabs/redismod.svg)](https://hub.docker.com/r/redislabs/redismod/builds/)
+[![Build Status](https://github.com/RedisLabsModules/redismod/actions/workflows/integration.yml/badge.svg)](https://github.com/RedisLabsModules/redismod/actions/workflows/integration.yml)
 
 # redismod - a Docker image with select Redis Labs modules
 
@@ -15,12 +15,12 @@ $ docker run -p 6379:6379 redislabs/redismod
 ...
 1:M 24 Apr 2019 21:46:40.474 * Module 'ai' loaded from /usr/lib/redis/modules/redisai.so
 1:M 24 Apr 2019 21:46:40.474 * <ft> RediSearch version 1.4.7 (Git=)
-1:M 24 Apr 2019 21:46:40.474 * <ft> concurrency: ON, gc: ON, prefix min length: 2, prefix max expansions: 200, query timeout (ms): 500, timeout policy: return, cursor read size: 1000, cursor max idle (ms): 300000, max doctable size: 1000000, search pool size: 20, index pool size: 8, 
+1:M 24 Apr 2019 21:46:40.474 * <ft> concurrency: ON, gc: ON, prefix min length: 2, prefix max expansions: 200, query timeout (ms): 500, timeout policy: return, cursor read size: 1000, cursor max idle (ms): 300000, max doctable size: 1000000, search pool size: 20, index pool size: 8,
 1:M 24 Apr 2019 21:46:40.475 * <ft> Initialized thread pool!
 1:M 24 Apr 2019 21:46:40.475 * Module 'ft' loaded from /usr/lib/redis/modules/redisearch.so
 1:M 24 Apr 2019 21:46:40.476 * <graph> Thread pool created, using 8 threads.
 1:M 24 Apr 2019 21:46:40.476 * Module 'graph' loaded from /usr/lib/redis/modules/redisgraph.so
-loaded default MAX_SAMPLE_PER_CHUNK policy: 360 
+loaded default MAX_SAMPLE_PER_CHUNK policy: 360
 1:M 24 Apr 2019 21:46:40.476 * Module 'timeseries' loaded from /usr/lib/redis/modules/redistimeseries.so
 1:M 24 Apr 2019 21:46:40.476 # <ReJSON> JSON data type for Redis v1.0.4 [encver 0]
 1:M 24 Apr 2019 21:46:40.476 * Module 'ReJSON' loaded from /usr/lib/redis/modules/rejson.so

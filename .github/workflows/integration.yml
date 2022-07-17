@@ -11,6 +11,8 @@ on:
   pull_request:
     branches:
       - master
+  schedule:
+    - cron:  '15 1 * * *'
 
 jobs:
 
@@ -21,7 +23,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        docker-suffix:  ['.edge', '.preview', '']
+        docker-suffix:  ['.edge', '.preview', '.latest']
     steps:
       - name: install redis tools
         run: sudo apt-get update && sudo apt-get install -y redis-tools
