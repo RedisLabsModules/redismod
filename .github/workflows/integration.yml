@@ -21,7 +21,6 @@ jobs:
     name: Validating docker ${{ matrix.docker-suffix }}
     timeout-minutes: 30
     strategy:
-      fail-fast: true
       matrix:
         docker-suffix:  ['.edge', '.preview', '.latest']
     steps:
@@ -39,3 +38,11 @@ jobs:
           redis-cli -p 6379 get foo|grep bar
           redis-cli -p 6379 json.set jsonfoo '.' '{"hello": "world"}'
           redis-cli -p 6379 json.get jsonfoo|grep hello
+      - name: Log in to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_REDISFAB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_REDISFAB_TOKEN }}
+      - name: docker push
+        if: github.ref == 'refs/heads/master'
+        run: docker push redismod:${{matrix.docker-suffix}}
