@@ -4,15 +4,16 @@ FROM redislabs/redisgraph:edge as redisgraph
 FROM redislabs/redistimeseries:edge as redistimeseries
 FROM redislabs/rejson:edge as rejson
 FROM redislabs/rebloom:edge as rebloom
-FROM redislabs/redisgears:edge
+FROM redislabs/redisgears:1.2.5
 
 ENV LD_LIBRARY_PATH /usr/lib/redis/modules
 ENV REDISGRAPH_DEPS libgomp1 git
+ENV REDISTIMESERIES_DEPS libssl-dev
 
 WORKDIR /data
 RUN set -ex; \
     apt-get update; \
-    apt-get install -y --no-install-recommends ${REDISGRAPH_DEPS};
+    apt-get install -y --no-install-recommends ${REDISGRAPH_DEPS}
 
 COPY --from=redisai ${LD_LIBRARY_PATH}/redisai.so ${LD_LIBRARY_PATH}/
 COPY --from=redisai ${LD_LIBRARY_PATH}/backends ${LD_LIBRARY_PATH}/backends
