@@ -1,4 +1,4 @@
-name: Build dockers
+name: Nightly publish to dockerhub
 
 on:
   schedule:
