@@ -1,4 +1,4 @@
-name: Build dockers
+name: Integration Tests
 
 on:
   push:

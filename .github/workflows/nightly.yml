@@ -25,4 +25,4 @@ jobs:
           username: ${{ secrets.DOCKERHUB_REDISFAB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_REDISFAB_TOKEN }}
       - name: docker push
-        run: docker push redismod:${{matrix.docker-suffix}}
+        run: docker push redislabs/redismod:${{matrix.docker-suffix}}
