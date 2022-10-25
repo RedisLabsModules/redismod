@@ -46,4 +46,4 @@ jobs:
           password: ${{ secrets.DOCKERHUB_REDISFAB_TOKEN }}
       - name: docker push
         if: github.ref == 'refs/heads/master'
-        run: docker push redismod:${{matrix.docker-suffix}}
+        run: docker push redisfab/redismod:${{matrix.docker-suffix}}
