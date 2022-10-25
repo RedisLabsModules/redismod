@@ -23,17 +23,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        docker-suffix:  ['.edge', '.preview', '.latest']
+        docker-suffix:  ['edge', 'preview', 'latest']
     steps:
       - name: install redis tools
         run: sudo apt-get update && sudo apt-get install -y redis-tools
       - uses: actions/checkout@v2
       - name: build the docker
         run: |
-          docker build -f Dockerfile${{ matrix.docker-suffix }} -t redismod:github${{ matrix.docker-suffix }} .
+          docker build -f Dockerfile.${{ matrix.docker-suffix }} -t redismod:github.${{ matrix.docker-suffix }} .
       - name: light test that redis runs
         run: |
-          docker run -d -p 6379:6379 redismod:github${{ matrix.docker-suffix }}
+          docker run -d -p 6379:6379 redismod:github.${{ matrix.docker-suffix }}
           redis-cli -p 6379 ping
           redis-cli -p 6379 set foo bar
           redis-cli -p 6379 get foo|grep bar
