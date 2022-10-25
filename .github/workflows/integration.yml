@@ -21,6 +21,7 @@ jobs:
     name: Validating docker ${{ matrix.docker-suffix }}
     timeout-minutes: 30
     strategy:
+      fail-fast: false
       matrix:
         docker-suffix:  ['.edge', '.preview', '.latest']
     steps:
