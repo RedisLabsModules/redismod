@@ -33,7 +33,7 @@ jobs:
           docker build -f Dockerfile.${{ matrix.docker-suffix }} -t redisfab/redismod:${{ matrix.docker-suffix }} .
       - name: light test that redis runs
         run: |
-          docker run -d -p 6379:6379 redisfab:redismod:${{ matrix.docker-suffix }}
+          docker run -d -p 6379:6379 redisfab/redismod:${{ matrix.docker-suffix }}
           redis-cli -p 6379 ping
           redis-cli -p 6379 set foo bar
           redis-cli -p 6379 get foo|grep bar
