@@ -30,7 +30,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: build the docker
         run: |
-          docker build -f Dockerfile.${{ matrix.docker-suffix }} -t redismod:github.${{ matrix.docker-suffix }} .
+          docker build -f Dockerfile.${{ matrix.docker-suffix }} -t redisfab/redismod:${{ matrix.docker-suffix }} .
       - name: light test that redis runs
         run: |
           docker run -d -p 6379:6379 redismod:github.${{ matrix.docker-suffix }}
